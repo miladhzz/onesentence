@@ -3,6 +3,11 @@ from django.views.generic import ListView, DetailView
 from .models import Post
 
 
-class Home(ListView):
+class Blog_list(ListView):
     model = Post
     template_name = 'home.html'
+
+
+class Blog_detail(DetailView):
+    model = Post
+    template_name = 'detail.html'
