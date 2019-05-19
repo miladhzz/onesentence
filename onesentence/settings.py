@@ -76,12 +76,15 @@ WSGI_APPLICATION = 'onesentence.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'onesentence',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
-        #'PORT': '3306',
+        # 'PORT': '3306',
+        'OPTIONS': {
+          'charset': 'utf8'
+        },
     }
 }
 
