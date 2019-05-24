@@ -5,15 +5,15 @@ from django.contrib.auth.models import User
 
 
 class Takhasos(models.Model):
-    title = models.CharField(unique=True)
+    title = models.CharField(unique=True, max_length=100)
 
 
 class Status(models.Model):
-    title = models.CharField(unique=True)
+    title = models.CharField(unique=True, max_length=100)
 
 
 class FileType(models.Model):
-    title = models.CharField(unique=True)
+    title = models.CharField(unique=True, max_length=100)
 
 
 class FileGallery(models.Model):
@@ -28,8 +28,8 @@ class Sentence(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.ForeignKey(Status, on_delete=models.DO_NOTHING)
     word_count = models.IntegerField()
-    zemanat_price = models.DecimalField()
-    price = models.DecimalField()
+    zemanat_price = models.DecimalField(decimal_places=0, max_digits=10)
+    price = models.DecimalField(decimal_places=0, max_digits=10)
     content = models.TextField()
     file_type = models.ForeignKey(FileType, on_delete=models.DO_NOTHING)
     file = models.ForeignKey(FileGallery, on_delete=models.DO_NOTHING)
@@ -43,16 +43,17 @@ class Suggest(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
     mojri = models.ForeignKey(User, on_delete=models.CASCADE)
     zaman_pishnahadi = models.IntegerField()
-    mablagh_pishnahadi = models.DecimalField()
+    mablagh_pishnahadi = models.DecimalField(decimal_places=0, max_digits=10)
     sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE)
-    description = models.CharField(max_length=300, blank=True)
+    description = models.TextField(max_length=300, blank=True)
     status = models.ForeignKey(SuggestStatus, on_delete=models.DO_NOTHING)
     score = models.IntegerField()
     time_tahvil = models.DateTimeField(null=True, blank=True)
     file = models.ForeignKey(FileGallery, on_delete=models.DO_NOTHING)
     file_type = models.ForeignKey(FileType, on_delete=models.DO_NOTHING)
     judgment_request = models.BooleanField()
-    judgment_user_request = models.ForeignKey(User, null=True, blank=True)
+    judgment_user_request = models.ForeignKey(User, blank=True, on_delete=models.DO_NOTHING,
+                                              related_name='user_request')
     judgment_description = models.TextField(blank=True, max_length=500)
 
 
@@ -69,18 +70,19 @@ class Maharat(models.Model):
 
 
 class Dashboard(models.Model):
-    mojodi = models.DecimalField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    mojodi = models.DecimalField(decimal_places=0, max_digits=10)
     user_type = models.ForeignKey(UserType, on_delete=models.DO_NOTHING)
     user_status = models.ForeignKey(UserStatus, on_delete=models.DO_NOTHING)
     resume_description = models.TextField(max_length=500)
     resume_file = models.ForeignKey(FileGallery, on_delete=models.DO_NOTHING)
     maharat = models.ManyToManyField(Maharat, blank=True)
-    rate = models.DecimalField()
+    rate = models.DecimalField(decimal_places=2, max_digits=3)
 
 
 class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE())
+    sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE)
     create_time = models.DateTimeField(auto_now_add=True)
 
 
