@@ -56,10 +56,32 @@ class Suggest(models.Model):
     judgment_description = models.TextField(blank=True, max_length=500)
 
 
-class Judgment(models.Model):
-    suggest = models.ForeignKey(Suggest)
-    description = models.TextField(max_length=500)
-    barandeh = models.ForeignKey(User, on_delete=models.CASCADE)
+class UserType(models.Model):
+    title = models.CharField(max_length=100)
+
+
+class UserStatus(models.Model):
+    title = models.CharField(max_length=100)
+
+
+class Maharat(models.Model):
+    title = models.CharField(max_length=100)
+
+
+class Dashboard(models.Model):
+    mojodi = models.DecimalField()
+    user_type = models.ForeignKey(UserType, on_delete=models.DO_NOTHING)
+    user_status = models.ForeignKey(UserStatus, on_delete=models.DO_NOTHING)
+    resume_description = models.TextField(max_length=500)
+    resume_file = models.ForeignKey(FileGallery, on_delete=models.DO_NOTHING)
+    maharat = models.ManyToManyField(Maharat, blank=True)
+    rate = models.DecimalField()
+
+
+class Report(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE())
+    create_time = models.DateTimeField(auto_now_add=True)
 
 
 
