@@ -7,36 +7,52 @@ from django.contrib.auth.models import User
 class Takhasos(models.Model):
     title = models.CharField(unique=True, max_length=100)
 
+    def __str__(self):
+        return self.title
+
 
 class Status(models.Model):
     title = models.CharField(unique=True, max_length=100)
 
+    def __str__(self):
+        return self.title
 
-class FileType(models.Model):
+
+class ContentType(models.Model):
     title = models.CharField(unique=True, max_length=100)
+
+    def __str__(self):
+        return self.title
 
 
 class FileGallery(models.Model):
     title = models.CharField(max_length=100, unique=True)
     file = models.FileField(upload_to='media/upload/files')
 
+    def __str__(self):
+        return self.title
+
 
 class Sentence(models.Model):
-    takhaoso = models.ForeignKey(Takhasos, on_delete=models.DO_NOTHING)
+    takhasos = models.ForeignKey(Takhasos, on_delete=models.DO_NOTHING)
     create_time = models.DateTimeField(auto_now_add=True)
-    mohlat_time = models.DateTimeField()
+    mohlat_rooz = models.IntegerField()
+    mohlat_saat = models.IntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.ForeignKey(Status, on_delete=models.DO_NOTHING)
     word_count = models.IntegerField()
     zemanat_price = models.DecimalField(decimal_places=0, max_digits=10)
     price = models.DecimalField(decimal_places=0, max_digits=10)
-    content = models.TextField()
-    file_type = models.ForeignKey(FileType, on_delete=models.DO_NOTHING)
-    file = models.ForeignKey(FileGallery, on_delete=models.DO_NOTHING)
+    content_type = models.ForeignKey(ContentType, on_delete=models.DO_NOTHING)
+    content_text = models.TextField(blank=True)
+    content_file = models.FileField(upload_to='media/upload/sentence_files', null=True)
 
 
 class SuggestStatus(models.Model):
     title = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.title
 
 
 class Suggest(models.Model):
@@ -49,8 +65,9 @@ class Suggest(models.Model):
     status = models.ForeignKey(SuggestStatus, on_delete=models.DO_NOTHING)
     score = models.IntegerField()
     time_tahvil = models.DateTimeField(null=True, blank=True)
-    file = models.ForeignKey(FileGallery, on_delete=models.DO_NOTHING)
-    file_type = models.ForeignKey(FileType, on_delete=models.DO_NOTHING)
+    content_type = models.ForeignKey(ContentType, on_delete=models.DO_NOTHING)
+    content_text = models.TextField(blank=True)
+    content_file = models.FileField(upload_to='media/upload/suggest_files', null=True)
     judgment_request = models.BooleanField()
     judgment_user_request = models.ForeignKey(User, blank=True, on_delete=models.DO_NOTHING,
                                               related_name='user_request')
@@ -60,13 +77,22 @@ class Suggest(models.Model):
 class UserType(models.Model):
     title = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.title
+
 
 class UserStatus(models.Model):
     title = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.title
+
 
 class Maharat(models.Model):
     title = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title
 
 
 class Dashboard(models.Model):

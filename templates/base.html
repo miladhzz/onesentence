@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %} Base {% endblock %}</title>
 </head>
-<body>
+<body dir="rtl">
+    <ul>
+        <li><a href="{% url 'home'%}">خانه</a></li>
+        <li><a href="{% url 'add_sentence'%}">ثبت جمله</a></li>
+    </ul>
     {% block content %}
 
     {% endblock %}

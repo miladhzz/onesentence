@@ -5,7 +5,7 @@ from business import models
 admin.site.register(models.Sentence)
 admin.site.register(models.Takhasos)
 admin.site.register(models.Status)
-admin.site.register(models.FileType)
+admin.site.register(models.ContentType)
 admin.site.register(models.FileGallery)
 admin.site.register(models.SuggestStatus)
 admin.site.register(models.Suggest)
