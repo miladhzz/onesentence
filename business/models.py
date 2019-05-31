@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+# from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -43,9 +44,12 @@ class Sentence(models.Model):
     word_count = models.IntegerField()
     zemanat_price = models.DecimalField(decimal_places=0, max_digits=10)
     price = models.DecimalField(decimal_places=0, max_digits=10)
-    content_type = models.ForeignKey(ContentType, on_delete=models.DO_NOTHING)
-    content_text = models.TextField(blank=True)
-    content_file = models.FileField(upload_to='media/upload/sentence_files', null=True)
+    # content_type = models.ForeignKey(ContentType, on_delete=models.DO_NOTHING)
+    content_text = models.TextField(max_length=500)
+    # content_file = models.FileField(upload_to='media/upload/sentence_files', blank=True)
+
+    def __str__(self):
+        return 'Time: %s, %s' % (self.create_time, self.takhasos.title)
 
 
 class SuggestStatus(models.Model):
