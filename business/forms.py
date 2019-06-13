@@ -15,6 +15,6 @@ class AddSentenceForm(forms.ModelForm):
         instance = super(AddSentenceForm, self).save(commit=False)
         instance.user = request.user
         instance.status = models.Status.objects.get(id=1)
-        instance.word_count = 0
+        instance.word_count = len(instance.content_text)
         instance.save()
         return instance
