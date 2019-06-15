@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %} onesentence - جمله ها {% endblock %}
+{% block content %}
+    <h1>جمله ها</h1>
+    <hr />
+    {% for sentence in sentence_list %}
+        <p>{{ sentence.content_text }}</p>
+    {% endfor %}
+{% endblock %}
