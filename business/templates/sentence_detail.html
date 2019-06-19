@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
-{% block title %} onesentence - جمله ها {% endblock %}
+{% block title %} onesentence - جزییات جمله {% endblock %}
 {% block content %}
-    <h1>جمله ها</h1>
+    <h1>جزییات</h1>
     <hr />
-    {% for sentence in sentence_list.all|slice:":10" %}
-        <div style="border:1px solid gray; margin:15px;">
+    <div style="border:1px solid gray; margin:15px;">
             عنوان:
-            <a href="{{ sentence.get_absolute_url }}">{{ sentence.title }}</a>
+            <a href="#">{{ sentence.title }}</a>
+            <br />
+            متن اصلی:
+            <span> {{sentence.content_text}} </span>
             <br />
             کاربر:
             <a href="#">{{ sentence.user }}</a>
@@ -25,8 +27,6 @@
             <span> {{sentence.mohlat_saat }} ساعت</span>
             <br />
 
-            <a href="{{ sentence.get_absolute_url }}">مشاهده جزییات و ارایه پیشنهاد</a>
+            <a href="#"> ثبت پیشنهاد</a>
         </div>
-
-    {% endfor %}
 {% endblock %}

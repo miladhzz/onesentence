@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from business.forms import AddSentenceForm, SubmitSuggestForm
 from django.views.generic.list import ListView
@@ -40,3 +40,9 @@ def submit_suggest(request):
 class SentenceList(ListView):
     model = Sentence
     template_name = 'sentence_list.html'
+
+
+@login_required
+def sentence_detail(request, sentence_id, sentence_title):
+    sentence = get_object_or_404(Sentence, id=sentence_id)
+    return render(request, 'sentence_detail.html', {'sentence': sentence})

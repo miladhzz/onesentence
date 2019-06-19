@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 # from django.core.exceptions import ValidationError
 
 # Create your models here.
@@ -35,6 +36,7 @@ class FileGallery(models.Model):
 
 
 class Sentence(models.Model):
+    title = models.CharField(max_length=100)
     takhasos = models.ForeignKey(Takhasos, on_delete=models.DO_NOTHING)
     create_time = models.DateTimeField(auto_now_add=True)
     mohlat_rooz = models.IntegerField()
@@ -49,7 +51,13 @@ class Sentence(models.Model):
     # content_file = models.FileField(upload_to='media/upload/sentence_files', blank=True)
 
     def __str__(self):
-        return 'Time: %s, %s' % (self.create_time, self.takhasos.title)
+        return 'Time: %s, %s' % (self.create_time, self.title)
+
+    class Meta:
+        ordering = ('-id',)
+
+    def get_absolute_url(self):
+        return reverse('sentence_detail', args=[self.id, self.title])
 
 
 class SuggestStatus(models.Model):
