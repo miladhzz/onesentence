@@ -27,6 +27,12 @@
             <span> {{sentence.mohlat_saat }} ساعت</span>
             <br />
 
-            <a href="#"> ثبت پیشنهاد</a>
+            <h1>ارسال پیشنهاد</h1>
+            
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">ارسال پیشنهاد</button>
+            </form>
         </div>
 {% endblock %}

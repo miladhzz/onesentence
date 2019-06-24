@@ -44,5 +44,14 @@ class SentenceList(ListView):
 
 @login_required
 def sentence_detail(request, sentence_id, sentence_title):
-    sentence = get_object_or_404(Sentence, id=sentence_id)
-    return render(request, 'sentence_detail.html', {'sentence': sentence})
+    if request.method == "POST":
+        form = SubmitSuggestForm(request.POST)
+        if form.is_valid():
+            suggest = form.save(request)
+            suggest.save()
+            return redirect('home')
+    else:
+        form = SubmitSuggestForm()
+        sentence = get_object_or_404(Sentence, id=sentence_id)
+        return render(request, 'sentence_detail.html', {'sentence': sentence,
+                                                        'form': form})
