@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from business.forms import AddSentenceForm, SubmitSuggestForm
 from django.views.generic.list import ListView
 from django.shortcuts import redirect
-from business.models import Sentence
+from business.models import Sentence, SuggestStatus
 
 
 def home(request):
@@ -44,14 +44,17 @@ class SentenceList(ListView):
 
 @login_required
 def sentence_detail(request, sentence_id, sentence_title):
+    sentence = get_object_or_404(Sentence, id=sentence_id)
     if request.method == "POST":
         form = SubmitSuggestForm(request.POST)
         if form.is_valid():
-            suggest = form.save(request)
+            suggest = form.save(commit=False)
+            suggest.mojri = request.user
+            suggest.status = SuggestStatus.objects.get(id=1)
+            suggest.sentence = sentence
             suggest.save()
             return redirect('home')
     else:
         form = SubmitSuggestForm()
-        sentence = get_object_or_404(Sentence, id=sentence_id)
         return render(request, 'sentence_detail.html', {'sentence': sentence,
                                                         'form': form})

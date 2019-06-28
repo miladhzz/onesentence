@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+
+
 # from django.core.exceptions import ValidationError
 
 # Create your models here.
@@ -13,7 +15,7 @@ class Takhasos(models.Model):
         return self.title
 
 
-class Status(models.Model):
+class SentenceStatus(models.Model):
     title = models.CharField(unique=True, max_length=100)
 
     def __str__(self):
@@ -42,12 +44,13 @@ class Sentence(models.Model):
     mohlat_rooz = models.IntegerField()
     mohlat_saat = models.IntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.ForeignKey(Status, on_delete=models.DO_NOTHING)
+    status = models.ForeignKey(SentenceStatus, on_delete=models.DO_NOTHING)
     word_count = models.IntegerField()
     zemanat_price = models.DecimalField(decimal_places=0, max_digits=10)
     price = models.DecimalField(decimal_places=0, max_digits=10)
     # content_type = models.ForeignKey(ContentType, on_delete=models.DO_NOTHING)
     content_text = models.TextField(max_length=500)
+
     # content_file = models.FileField(upload_to='media/upload/sentence_files', blank=True)
 
     def __str__(self):
@@ -75,15 +78,17 @@ class Suggest(models.Model):
     sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE)
     description = models.TextField(max_length=300, blank=True)
     status = models.ForeignKey(SuggestStatus, on_delete=models.DO_NOTHING)
-    score = models.IntegerField(null=True)
-    time_tahvil = models.DateTimeField(null=True, blank=True)
-    content_type = models.ForeignKey(ContentType, on_delete=models.DO_NOTHING)
-    content_text = models.TextField(blank=True)
-    content_file = models.FileField(upload_to='media/upload/suggest_files', null=True)
-    judgment_request = models.BooleanField()
-    judgment_user_request = models.ForeignKey(User, blank=True, on_delete=models.DO_NOTHING,
+
+
+class ContentsOfSuggest(models.Model):
+    content_type = models.OneToOneField(ContentType, on_delete=models.DO_NOTHING)
+    content_text = models.TextField()
+    content_file = models.FileField(upload_to='media/upload/Contents_Of_Suggest_Files')
+    judgment_request = models.BooleanField(null=True)
+    judgment_user_request = models.ForeignKey(User, blank=True, null=True, on_delete=models.DO_NOTHING,
                                               related_name='user_request')
     judgment_description = models.TextField(blank=True, max_length=500)
+    create_time = models.DateTimeField(auto_now_add=True)
 
 
 class UserType(models.Model):
@@ -122,6 +127,3 @@ class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE)
     create_time = models.DateTimeField(auto_now_add=True)
-
-
-
