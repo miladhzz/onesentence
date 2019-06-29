@@ -41,6 +41,12 @@ class SentenceList(ListView):
     model = Sentence
     template_name = 'sentence_list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Only show not annotate sentence
+        context['sentence_list'] = Sentence.objects.filter(status=1)
+        return context
+
 
 @login_required
 def sentence_detail(request, sentence_id, sentence_title):
