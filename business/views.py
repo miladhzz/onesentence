@@ -4,7 +4,8 @@ from django.http import HttpResponse
 from business.forms import AddSentenceForm, SubmitSuggestForm
 from django.views.generic.list import ListView
 from django.shortcuts import redirect
-from business.models import Sentence, SuggestStatus
+from business.models import Sentence, SuggestStatus, Suggest
+from django.db.models import Count
 
 
 def home(request):
@@ -51,6 +52,7 @@ class SentenceList(ListView):
 @login_required
 def sentence_detail(request, sentence_id, sentence_title):
     sentence = get_object_or_404(Sentence, id=sentence_id)
+    suggest_count = Suggest.objects.filter(sentence_id=sentence.id).count()
     if request.method == "POST":
         form = SubmitSuggestForm(request.POST)
         if form.is_valid():
@@ -63,4 +65,5 @@ def sentence_detail(request, sentence_id, sentence_title):
     else:
         form = SubmitSuggestForm()
         return render(request, 'sentence_detail.html', {'sentence': sentence,
+                                                        'suggest_count': suggest_count,
                                                         'form': form})
