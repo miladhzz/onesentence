@@ -28,12 +28,25 @@
             <br />
             <span style="font-weight:bold;">پیشنهادات: </span>
             {{ suggest_count }}
-            <h1>ارسال پیشنهاد</h1>
+            {% if current_user_suggest %}
+                {% for suggest in current_user_suggest %}
+                <div>
+                    <h2>پیشنهاد شما:</h2>
+                    مبلغ پیشنهادی:
+                    <span>{{ suggest.mablagh_pishnahadi }}</span>
+                    <br />
+                    توضیحات:
+                    <span>{{ suggest.description }}</span>
+                </div>
+                {% endfor %}
+            {% else %}
+                <h1>ارسال پیشنهاد</h1>
 
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">ارسال پیشنهاد</button>
-            </form>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">ارسال پیشنهاد</button>
+                </form>
+            {% endif %}
         </div>
 {% endblock %}

@@ -53,6 +53,9 @@ class SentenceList(ListView):
 def sentence_detail(request, sentence_id, sentence_title):
     sentence = get_object_or_404(Sentence, id=sentence_id)
     suggest_count = Suggest.objects.filter(sentence_id=sentence.id).count()
+    current_user_suggest = {}
+    if suggest_count > 0:
+        current_user_suggest = Suggest.objects.filter(sentence_id=sentence.id, mojri=request.user)
     if request.method == "POST":
         form = SubmitSuggestForm(request.POST)
         if form.is_valid():
@@ -66,4 +69,5 @@ def sentence_detail(request, sentence_id, sentence_title):
         form = SubmitSuggestForm()
         return render(request, 'sentence_detail.html', {'sentence': sentence,
                                                         'suggest_count': suggest_count,
+                                                        'current_user_suggest': current_user_suggest,
                                                         'form': form})
