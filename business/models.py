@@ -60,7 +60,7 @@ class Sentence(models.Model):
         ordering = ('-id',)
 
     def get_absolute_url(self):
-        return reverse('sentence_detail', args=[self.id, self.title])
+        return reverse('business:sentence_detail', args=[self.id, self.title])
 
 
 class SuggestStatus(models.Model):

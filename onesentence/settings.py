@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'business',
     'transactions',
     'davari',
-    'blog'
+    'blog',
+    'dashboard'
 ]
 
 MIDDLEWARE = [
