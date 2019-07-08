@@ -1,5 +1,59 @@
 {% extends 'base.html' %}
 {% block title %} onesentence - خانه {% endblock %}
 {% block content %}
- Applicant
+
+ <h1>داشبورد درخواست کننده</h1>
+<h3>همه جمله ها</h3>
+    <table border="1">
+     <thead>
+        <td>
+         کد جمله
+        </td>
+        <td>
+          عنوان
+        </td>
+        <td>
+          تعداد کاراکترها
+        </td>
+        <td>
+         زمان ثبت
+        </td>
+        <td>
+         تعداد پیشنهادات
+        </td>
+        <td>
+           پیشنهادتایید شده
+        </td>
+        <td>
+           وضعیت
+        </td>
+     </thead>
+     <tbody>
+     {% for sentence in my_sentence %}
+        <tr>
+            <td>
+             {{ sentence.id }}
+            </td>
+           <td>
+            {{ sentence.title }}
+           </td>
+           <td>
+            {{ sentence.word_count }}
+           </td>
+           <td>
+            {{ sentence.create_time }}
+           </td>
+           <td>
+            {{ sentence.id }}
+           </td>
+           <td>
+            {{ sentence.id }}
+           </td>
+           <td>
+            {{ sentence.id }}
+           </td>
+     </tr>
+     {% endfor %}
+     </tbody>
+    </table>
 {% endblock %}

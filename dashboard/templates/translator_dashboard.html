@@ -1,5 +1,61 @@
 {% extends 'base.html' %}
 {% block title %} onesentence - خانه {% endblock %}
 {% block content %}
- Translator
+
+ <h1>داشبورد مترجم</h1>
+<h3>همه پیشنهادهای من</h3>
+    <table border="1">
+     <thead>
+        <td>
+         کد جمله
+        </td>
+        <td>
+          عنوان
+        </td>
+        <td>
+          تعداد کاراکترها
+        </td>
+        <td>
+         توضیحات من
+        </td>
+        <td>
+         زمان ثبت
+        </td>
+        <td>
+         پیشنهاد من
+        </td>
+        <td>
+          وضعیت پیشنهاد
+        </td>
+     </thead>
+     <tbody>
+     {% for suggest in my_suggests %}
+        <tr>
+            <td>
+             {{ suggest.sentence.id }}
+            </td>
+           <td>
+            {{ suggest.sentence.title }}
+           </td>
+           <td>
+            {{ suggest.sentence.word_count }}
+           </td>
+           <td>
+            {{ suggest.description }}
+           </td>
+           <td>
+            {{ suggest.sentence.create_time }}
+           </td>
+           <td>
+            {{ suggest.mablagh_pishnahadi }}
+           </td>
+           <td>
+            {{ suggest.status }}
+           </td>
+     </tr>
+     {% endfor %}
+     </tbody>
+    </table>
+
+
 {% endblock %}

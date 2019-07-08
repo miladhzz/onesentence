@@ -5,6 +5,9 @@
     <hr />
     {% for sentence in sentence_list.all|slice:":10" %}
         <div style="border:1px solid gray; margin:15px;">
+            کد جمله:
+            <span> {{sentence.id }} </span>
+            <br />
             عنوان:
             <a href="{{ sentence.get_absolute_url }}">{{ sentence.title }}</a>
             <br />
