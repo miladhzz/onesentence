@@ -52,6 +52,7 @@ class Sentence(models.Model):
     content_text = models.TextField(max_length=500)
 
     # content_file = models.FileField(upload_to='media/upload/sentence_files', blank=True)
+    translator = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, related_name='translator')
 
     def __str__(self):
         return 'Time: %s, %s' % (self.create_time, self.title)

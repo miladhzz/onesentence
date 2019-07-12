@@ -22,10 +22,7 @@
          تعداد پیشنهادات
         </td>
         <td>
-           پیشنهادتایید شده
-        </td>
-        <td>
-           وضعیت
+           مترجم
         </td>
      </thead>
      <tbody>
@@ -44,13 +41,14 @@
             {{ sentence.create_time }}
            </td>
            <td>
-            {{ sentence.id }}
+            {{ sentence.num_suggests }}
            </td>
            <td>
-            {{ sentence.id }}
-           </td>
-           <td>
-            {{ sentence.id }}
+               {% if  sentence.translator %}
+                    {{ sentence.translator }}
+               {% else %}
+                هنوز انتخاب نشده
+               {% endif %}
            </td>
      </tr>
      {% endfor %}

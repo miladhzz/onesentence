@@ -19,7 +19,7 @@ def add_sentence(request):
         if form.is_valid():
             sentence = form.save(request)
             sentence.save()
-            return redirect('home')
+            return redirect('business:home')
     else:
         form = AddSentenceForm()
     return render(request, 'add_sentence.html', {'form': form})
@@ -32,7 +32,7 @@ def submit_suggest(request):
         if form.is_valid():
             suggest = form.save(request)
             suggest.save()
-            return redirect('home')
+            return redirect('business:home')
     else:
         form = SubmitSuggestForm()
     return render(request, 'submit_suggest.html', {'form': form})
@@ -64,7 +64,7 @@ def sentence_detail(request, sentence_id, sentence_title):
             suggest.status = SuggestStatus.objects.get(id=1)
             suggest.sentence = sentence
             suggest.save()
-            return redirect('home')
+            return redirect('business:home')
     else:
         form = SubmitSuggestForm()
         return render(request, 'sentence_detail.html', {'sentence': sentence,
