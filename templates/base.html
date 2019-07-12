@@ -12,6 +12,9 @@
         <li><a href="{% url 'dashboard:dashboard_tr'%}">داشبورد مترجم</a></li>
         <li><a href="{% url 'business:add_sentence'%}">ثبت جمله</a></li>
         <li><a href="{% url 'business:sentence_list'%}">لیست جمله ها</a></li>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'business:logout' %}">خروج</a>
+        {% endif %}
     </ul>
     {% block content %}
 

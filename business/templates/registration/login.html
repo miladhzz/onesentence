@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body dir="rtl">
+{% if request.user.is_authenticated %}
+    <a href="{% url 'business:logout' %}">خروج</a>
+{% else %}
+    <h2>ورود به سایت</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">ورود</button>
+    </form>
+{% endif %}
+</body>
+</html>

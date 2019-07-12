@@ -32,7 +32,7 @@
              {{ sentence.id }}
             </td>
            <td>
-            {{ sentence.title }}
+               <a href="{{ sentence.get_absolute_url }}">{{ sentence.title }}</a>
            </td>
            <td>
             {{ sentence.word_count }}

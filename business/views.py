@@ -1,11 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
 from business.forms import AddSentenceForm, SubmitSuggestForm
 from django.views.generic.list import ListView
 from django.shortcuts import redirect
 from business.models import Sentence, SuggestStatus, Suggest
-from django.db.models import Count
+from django.contrib.auth import logout
 
 
 def home(request):
@@ -71,3 +70,8 @@ def sentence_detail(request, sentence_id, sentence_title):
                                                         'suggest_count': suggest_count,
                                                         'current_user_suggest': current_user_suggest,
                                                         'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('business:home')
