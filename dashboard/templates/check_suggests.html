@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %} onesentence - بررسی پیشنهادات {% endblock %}
+{% block content %}
+    <h1>بررسی پیشنهادات</h1>
+    <hr />
+    <div style="border:1px solid gray; margin:15px;">
+            عنوان:
+            <a href="#">{{ sentence.title }}</a>
+            <br />
+            متن اصلی:
+            <span> {{sentence.content_text}} </span>
+            <br />
+            کاربر:
+            <a href="#">{{ sentence.user }}</a>
+            <br >
+            زمان ثبت:
+            <span>{{ sentence.create_time }}</span>
+            <br />
+            تخصص:
+            <span> {{sentence.takhasos.title }} </span>
+            <br />
+            تعداد کاراکترها:
+            <span> {{sentence.word_count}} </span>
+            <br />
+            مهلت انجام:
+            <span> {{sentence.mohlat_rooz }} روز</span>
+            <span> {{sentence.mohlat_saat }} ساعت</span>
+            <br />
+            {% for suggest in suggests %}
+            <div style="background-color:lightgray; margin:5px; padding:5px;">
+                مجری:
+                <span>{{ suggest.mojri }}</span>
+                <br />
+                مبلغ پیشنهادی:
+                <span>{{ suggest.mablagh_pishnahadi }}</span>
+                <br />
+                توضیحات:
+                <span>{{ suggest.description }}</span>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="sentence_id" value="{{ sentence.id }}"/>
+                    <input type="hidden" name="suggest_id" value="{{ suggest.id }}"/>
+                    <button type="submit">تایید پیشنهاد</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+{% endblock %}

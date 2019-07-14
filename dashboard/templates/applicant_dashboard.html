@@ -24,6 +24,9 @@
         <td>
            مترجم
         </td>
+        <td>
+            بررسی پیشنهادات
+        </td>
      </thead>
      <tbody>
      {% for sentence in my_sentence %}
@@ -50,6 +53,13 @@
                 هنوز انتخاب نشده
                {% endif %}
            </td>
+            <td>
+                {% if sentence.status_id == 1 %}
+                <a href="{% url 'dashboard:check_suggest' sentence.id%}">بررسی پیشنهادات</a>
+                {% else %}
+                -
+                {% endif %}
+            </td>
      </tr>
      {% endfor %}
      </tbody>
