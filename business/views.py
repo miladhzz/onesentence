@@ -5,6 +5,7 @@ from django.views.generic.list import ListView
 from django.shortcuts import redirect
 from business.models import Sentence, SuggestStatus, Suggest
 from django.contrib.auth import logout
+from onesentence.enums import SuggestEnum, SentenceEnum
 
 
 def home(request):
@@ -44,7 +45,7 @@ class SentenceList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Only show not annotate sentence
-        context['sentence_list'] = Sentence.objects.filter(status=1)
+        context['sentence_list'] = Sentence.objects.filter(status=SentenceEnum.Saved.value[0])
         return context
 
 
@@ -60,7 +61,7 @@ def sentence_detail(request, sentence_id, sentence_title):
         if form.is_valid():
             suggest = form.save(commit=False)
             suggest.mojri = request.user
-            suggest.status = SuggestStatus.objects.get(id=1)
+            suggest.status = SuggestStatus.objects.get(id=SuggestEnum.Waiting.value[0])
             suggest.sentence = sentence
             suggest.save()
             return redirect('business:home')

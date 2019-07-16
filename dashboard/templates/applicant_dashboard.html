@@ -22,6 +22,9 @@
          تعداد پیشنهادات
         </td>
         <td>
+            وضعیت
+        </td>
+        <td>
            مترجم
         </td>
         <td>
@@ -46,15 +49,18 @@
            <td>
             {{ sentence.num_suggests }}
            </td>
+            <td>
+            {{ sentence.status }}
+            </td>
            <td>
                {% if  sentence.translator %}
-                    {{ sentence.translator }}
+               <a href="#"> {{ sentence.translator }} </a>
                {% else %}
                 هنوز انتخاب نشده
                {% endif %}
            </td>
             <td>
-                {% if sentence.status_id == 1 %}
+                {% if sentence.status_id == 2 and  sentence.num_suggests > 0%}
                 <a href="{% url 'dashboard:check_suggest' sentence.id%}">بررسی پیشنهادات</a>
                 {% else %}
                 -

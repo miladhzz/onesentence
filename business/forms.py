@@ -1,5 +1,6 @@
 from django import forms
 from business import models
+from onesentence.enums import SuggestEnum, SentenceEnum
 
 
 # from django.core import validators
@@ -14,7 +15,8 @@ class AddSentenceForm(forms.ModelForm):
     def save(self, request):
         instance = super(AddSentenceForm, self).save(commit=False)
         instance.user = request.user
-        instance.status = models.SentenceStatus.objects.get(id=1)
+        # default sentence status 2 (sabt nahaei)
+        instance.status = models.SentenceStatus.objects.get(id=SentenceEnum.Saved.value[0])
         instance.word_count = len(instance.content_text)
         instance.save()
         return instance

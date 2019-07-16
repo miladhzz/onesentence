@@ -4,6 +4,7 @@ from business.models import Suggest, Sentence
 import logging
 from django.db.models import Count
 from django.shortcuts import redirect
+from onesentence.enums import SuggestEnum, SentenceEnum
 
 logger = logging.getLogger(__name__)
 
@@ -35,16 +36,23 @@ def check_suggest(request, sentence_id):
         if suggests_count == 1:
             suggest = Suggest.objects.get(id=suggest_id)
             # update status of selected suggest
-            Suggest.objects.filter(id=suggest_id).update(status_id=2)
+            Suggest.objects.filter(id=suggest_id).update(status_id=SuggestEnum.Accept.value[0])
             # update sentence status
-            Sentence.objects.filter(id=sentence_id).update(status_id=3,
+            Sentence.objects.filter(id=sentence_id).update(status_id=SentenceEnum.Processing.value[0],
                                                            translator=suggest.mojri)
             # update another suggest to reject
             reject_suggests = Suggest.objects.filter(sentence_id=sentence_id).exclude(sentence_id=sentence_id, status_id=2)
             for reject_suggest in reject_suggests:
-                Suggest.objects.filter(id=reject_suggest.id).update(status_id=3)
+                Suggest.objects.filter(id=reject_suggest.id).update(status_id=SuggestEnum.Reject.value[0])
             return redirect('dashboard:dashboard_ap')
         return redirect('business:home')
     else:
         return render(request, 'check_suggests.html', {"sentence": sentence,
                                                        "suggests": suggests})
+
+
+@login_required
+def sentence_detail_dashboard(request, sentence_id, sentence_title):
+    sentence = get_object_or_404(Sentence, id=sentence_id)
+    accept_suggest = Suggest.objects.filter(sentence_id=sentence.id, status=SuggestEnum.Accept.value[0])
+    # incomplete show sentence detail for dashboard
