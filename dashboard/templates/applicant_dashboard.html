@@ -38,7 +38,7 @@
              {{ sentence.id }}
             </td>
            <td>
-               <a href="{{ sentence.get_absolute_url }}">{{ sentence.title }}</a>
+               <a href="{% url 'dashboard:sentence_detail_dashboard' sentence.id sentence.title %}">{{ sentence.title }}</a>
            </td>
            <td>
             {{ sentence.word_count }}

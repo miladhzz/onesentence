@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %} onesentence - جزییات جمله {% endblock %}
+{% block content %}
+    <h1>جزییات جمله</h1>
+    <hr />
+    <div style="border:1px solid gray; margin:15px;">
+        عنوان:
+        <a href="#">{{ sentence.title }}</a>
+        <br />
+        متن اصلی:
+        <span> {{sentence.content_text}} </span>
+        <br />
+        زمان ثبت:
+        <span>{{ sentence.create_time }}</span>
+        <br />
+        تخصص:
+        <span> {{sentence.takhasos.title }} </span>
+        <br />
+        تعداد کاراکترها:
+        <span> {{sentence.word_count}} </span>
+        <br />
+        مهلت انجام:
+        <span> {{sentence.mohlat_rooz }} روز</span>
+        <span> {{sentence.mohlat_saat }} ساعت</span>
+        <br />
+        <h3>پیشنهاد تایید شده
+        </h3>
+        <div style="background-color:lightgray; margin:5px; padding:5px;">
+            {% for suggest in accept_suggest %}
+                مجری:
+                <span>{{ suggest.mojri }}</span>
+                <br />
+                مبلغ پیشنهادی:
+                <span>{{ suggest.mablagh_pishnahadi }}</span>
+                <br />
+                توضیحات:
+                <span>{{ suggest.description }}</span>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -56,3 +56,6 @@ def sentence_detail_dashboard(request, sentence_id, sentence_title):
     sentence = get_object_or_404(Sentence, id=sentence_id)
     accept_suggest = Suggest.objects.filter(sentence_id=sentence.id, status=SuggestEnum.Accept.value[0])
     # incomplete show sentence detail for dashboard
+
+    return render(request, 'sentence_detail_dashboard.html', {"sentence": sentence,
+                                                              "accept_suggest": accept_suggest})
