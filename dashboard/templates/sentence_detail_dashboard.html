@@ -23,6 +23,8 @@
         <span> {{sentence.mohlat_rooz }} روز</span>
         <span> {{sentence.mohlat_saat }} ساعت</span>
         <br />
+        <span class="status">وضعیت جمله:</span>
+        <span class="status">{{ sentence.status }}</span>
         <h3>پیشنهاد تایید شده
         </h3>
         <div style="background-color:lightgray; margin:5px; padding:5px;">
@@ -35,7 +37,11 @@
                 <br />
                 توضیحات:
                 <span>{{ suggest.description }}</span>
+                <br />
+                فایل تحویلی:
+                <span>{{ suggest.completeFile }}</span>
             {% endfor %}
         </div>
+        <h3>درخواست داوری</h3>
     </div>
 {% endblock %}

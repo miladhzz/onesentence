@@ -79,17 +79,17 @@ class Suggest(models.Model):
     sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE)
     description = models.TextField(max_length=300, blank=True)
     status = models.ForeignKey(SuggestStatus, on_delete=models.DO_NOTHING)
+    completeFile = models.FileField(null=True, blank=True, upload_to='media/upload/Content_File_Of_Suggest')
+    rate_number = models.IntegerField(blank=True, default=0, null=True)
 
 
-class ContentsOfSuggest(models.Model):
-    content_type = models.OneToOneField(ContentType, on_delete=models.DO_NOTHING)
-    content_text = models.TextField()
-    content_file = models.FileField(upload_to='media/upload/Contents_Of_Suggest_Files')
-    judgment_request = models.BooleanField(null=True)
-    judgment_user_request = models.ForeignKey(User, blank=True, null=True, on_delete=models.DO_NOTHING,
-                                              related_name='user_request')
-    judgment_description = models.TextField(blank=True, max_length=500)
+class Judgment(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
+    judgment_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    judgment_description = models.TextField(blank=True, max_length=500)
+    suggest = models.ForeignKey(Suggest, on_delete=models.CASCADE)
+    judgment_won_user = models.ForeignKey(User, on_delete=models.DO_NOTHING,
+                                          null=True, related_name='won_user')
 
 
 class UserType(models.Model):
