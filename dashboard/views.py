@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from business.models import Suggest, Sentence
+from business.models import Suggest, Sentence, Judgment
 import logging
 from django.db.models import Count
 from django.shortcuts import redirect
 from onesentence.enums import SuggestEnum, SentenceEnum
-from dashboard.forms import EditCompleteFileForm
+from dashboard.forms import EditCompleteFileForm, SubmitJudgmentForm
 import datetime
 
 logger = logging.getLogger(__name__)
@@ -58,23 +58,35 @@ def check_suggest(request, sentence_id):
 def sentence_detail_dashboard(request, sentence_id, sentence_title):
     sentence = get_object_or_404(Sentence, id=sentence_id)
     accept_suggest = Suggest.objects.filter(sentence_id=sentence.id, status=SuggestEnum.Accept.value)
+    judgments = Judgment
     suggest = Suggest
     try:
         suggest = Suggest.objects.get(sentence_id=sentence.id, status=SuggestEnum.Accept.value)
+        judgments = Judgment.objects.filter(suggest_id=suggest.id)
     except:
         pass
-    if request.method == "POST":
+    if request.method == "POST" and 'complete_file_btn' in request.POST:
         form_file = EditCompleteFileForm(request.POST, request.FILES, instance=suggest)
         if form_file.is_valid():
             suggest = form_file.save(commit=False)
             suggest.upload_time = datetime.datetime.now()
-
             suggest.save()
             # update sentence status
             Sentence.objects.filter(id=sentence.id).update(status_id=SentenceEnum.Completed.value)
             return redirect("dashboard:dashboard_tr")
+    elif request.method == "POST" and 'judgment_btn' in request.POST:
+        form_judgment = SubmitJudgmentForm(request.POST)
+        if form_judgment.is_valid():
+            judgment = form_judgment.save(commit=False)
+            judgment.judgment_user = request.user
+            judgment.suggest = suggest
+            judgment.save()
+            return redirect("business:home")
     else:
         form_file = EditCompleteFileForm(instance=suggest)
+        form_judgment = SubmitJudgmentForm()
     return render(request, 'sentence_detail_dashboard.html', {"sentence": sentence,
                                                               "accept_suggest": accept_suggest,
-                                                              "form_file": form_file})
+                                                              "form_file": form_file,
+                                                              "form_judgment": form_judgment,
+                                                              "judgments": judgments})

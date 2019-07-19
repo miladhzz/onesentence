@@ -50,18 +50,35 @@
                             {% csrf_token %}
                             {{ form_file.as_p }}
                             <br />
-                            <input type="submit" value="ارسال فایل"/>
+                            <input type="submit" name="complete_file_btn" value="ارسال فایل"/>
                         </form>
                     {% endif  %}
                 {% endfor %}
             </div>
             <h3>درخواست داوری</h3>
-                <form method="post" action="">
-                    {% csrf_token %}
-                    <textarea name="message" rows="10" cols="30" placeholder="توضیحات داوری را اینجا وارد کنید."></textarea>
-                    <br />
-                    <input type="submit" value="ثبت درخواست داوری"/>
-                </form>
+                {% if judgments %}
+                    <div>
+                    {% for judgment in judgments %}
+                        درخواست کننده:
+                        {{ judgment.judgment_user }}
+                        <br/>
+                        تاریخ ثبت:
+                        {{ judgment.create_time }}
+                        <br/>
+                        توضیحات:
+                        {{ judgment.judgment_description }}
+                        <br/>
+                        رای داور به نفع:
+                        {{ judgment.judgment_won_user }}
+                    {% endfor %}
+                    </div>
+                {% else %}
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {{ form_judgment.as_p }}
+                        <input type="submit" name="judgment_btn" value="ثبت درخواست داوری"/>
+                    </form>
+                {% endif %}
         {% else %}
             <h3>هنوز پیشنهادی تایید نشده</h3>
         {% endif %}
