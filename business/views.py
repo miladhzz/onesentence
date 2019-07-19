@@ -45,7 +45,7 @@ class SentenceList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Only show not annotate sentence
-        context['sentence_list'] = Sentence.objects.filter(status=SentenceEnum.Saved.value[0])
+        context['sentence_list'] = Sentence.objects.filter(status=SentenceEnum.Saved.value)
         return context
 
 
@@ -61,16 +61,16 @@ def sentence_detail(request, sentence_id, sentence_title):
         if form.is_valid():
             suggest = form.save(commit=False)
             suggest.mojri = request.user
-            suggest.status = SuggestStatus.objects.get(id=SuggestEnum.Waiting.value[0])
+            suggest.status = SuggestStatus.objects.get(id=SuggestEnum.Waiting.value)
             suggest.sentence = sentence
             suggest.save()
             return redirect('business:home')
     else:
         form = SubmitSuggestForm()
-        return render(request, 'sentence_detail.html', {'sentence': sentence,
-                                                        'suggest_count': suggest_count,
-                                                        'current_user_suggest': current_user_suggest,
-                                                        'form': form})
+    return render(request, 'sentence_detail.html', {'sentence': sentence,
+                                                    'suggest_count': suggest_count,
+                                                    'current_user_suggest': current_user_suggest,
+                                                    'form': form})
 
 
 def logout_view(request):

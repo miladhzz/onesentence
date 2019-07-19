@@ -19,29 +19,51 @@
         تعداد کاراکترها:
         <span> {{sentence.word_count}} </span>
         <br />
+        درخواست کننده:
+        <a href="#"> {{sentence.user}} </a>
+        <br />
         مهلت انجام:
         <span> {{sentence.mohlat_rooz }} روز</span>
         <span> {{sentence.mohlat_saat }} ساعت</span>
         <br />
         <span class="status">وضعیت جمله:</span>
         <span class="status">{{ sentence.status }}</span>
-        <h3>پیشنهاد تایید شده
-        </h3>
-        <div style="background-color:lightgray; margin:5px; padding:5px;">
-            {% for suggest in accept_suggest %}
-                مجری:
-                <span>{{ suggest.mojri }}</span>
-                <br />
-                مبلغ پیشنهادی:
-                <span>{{ suggest.mablagh_pishnahadi }}</span>
-                <br />
-                توضیحات:
-                <span>{{ suggest.description }}</span>
-                <br />
-                فایل تحویلی:
-                <span>{{ suggest.completeFile }}</span>
-            {% endfor %}
-        </div>
-        <h3>درخواست داوری</h3>
+        {% if accept_suggest %}
+            <h3>پیشنهاد تایید شده
+            </h3>
+            <div style="background-color:lightgray; margin:5px; padding:5px;">
+                {% for suggest in accept_suggest %}
+                    مجری:
+                    <span>{{ suggest.mojri }}</span>
+                    <br />
+                    مبلغ پیشنهادی:
+                    <span>{{ suggest.mablagh_pishnahadi }}</span>
+                    <br />
+                    توضیحات:
+                    <span>{{ suggest.description }}</span>
+                    <br />
+                    فایل تحویلی:
+                    <span>{{ suggest.completeFile }}</span>
+                    {% if request.user == suggest.mojri %}
+                        <h3>ارسال فایل ترجمه</h3>
+                        <form method="post" action=""  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form_file.as_p }}
+                            <br />
+                            <input type="submit" value="ارسال فایل"/>
+                        </form>
+                    {% endif  %}
+                {% endfor %}
+            </div>
+            <h3>درخواست داوری</h3>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <textarea name="message" rows="10" cols="30" placeholder="توضیحات داوری را اینجا وارد کنید."></textarea>
+                    <br />
+                    <input type="submit" value="ثبت درخواست داوری"/>
+                </form>
+        {% else %}
+            <h3>هنوز پیشنهادی تایید نشده</h3>
+        {% endif %}
     </div>
 {% endblock %}

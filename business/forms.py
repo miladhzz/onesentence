@@ -16,7 +16,7 @@ class AddSentenceForm(forms.ModelForm):
         instance = super(AddSentenceForm, self).save(commit=False)
         instance.user = request.user
         # default sentence status 2 (sabt nahaei)
-        instance.status = models.SentenceStatus.objects.get(id=SentenceEnum.Saved.value[0])
+        instance.status = models.SentenceStatus.objects.get(id=SentenceEnum.Saved.value)
         instance.word_count = len(instance.content_text)
         instance.save()
         return instance
@@ -36,3 +36,6 @@ class SubmitSuggestForm(forms.ModelForm):
         instance.save()
         return instance
 '''
+
+
+

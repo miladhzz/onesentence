@@ -35,7 +35,7 @@
              {{ suggest.sentence.id }}
             </td>
            <td>
-            {{ suggest.sentence.title }}
+            <a href="{% url 'dashboard:sentence_detail_dashboard' suggest.sentence.id suggest.sentence.title %}">{{ suggest.sentence.title }}</a>
            </td>
            <td>
             {{ suggest.sentence.word_count }}

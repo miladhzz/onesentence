@@ -5,6 +5,8 @@ import logging
 from django.db.models import Count
 from django.shortcuts import redirect
 from onesentence.enums import SuggestEnum, SentenceEnum
+from dashboard.forms import EditCompleteFileForm
+import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -36,14 +38,15 @@ def check_suggest(request, sentence_id):
         if suggests_count == 1:
             suggest = Suggest.objects.get(id=suggest_id)
             # update status of selected suggest
-            Suggest.objects.filter(id=suggest_id).update(status_id=SuggestEnum.Accept.value[0])
+            Suggest.objects.filter(id=suggest_id).update(status_id=SuggestEnum.Accept.value)
             # update sentence status
-            Sentence.objects.filter(id=sentence_id).update(status_id=SentenceEnum.Processing.value[0],
+            Sentence.objects.filter(id=sentence_id).update(status_id=SentenceEnum.Processing.value,
                                                            translator=suggest.mojri)
             # update another suggest to reject
-            reject_suggests = Suggest.objects.filter(sentence_id=sentence_id).exclude(sentence_id=sentence_id, status_id=2)
+            reject_suggests = Suggest.objects.filter(sentence_id=sentence_id).exclude(sentence_id=sentence_id,
+                                                                                      status_id=2)
             for reject_suggest in reject_suggests:
-                Suggest.objects.filter(id=reject_suggest.id).update(status_id=SuggestEnum.Reject.value[0])
+                Suggest.objects.filter(id=reject_suggest.id).update(status_id=SuggestEnum.Reject.value)
             return redirect('dashboard:dashboard_ap')
         return redirect('business:home')
     else:
@@ -54,8 +57,24 @@ def check_suggest(request, sentence_id):
 @login_required
 def sentence_detail_dashboard(request, sentence_id, sentence_title):
     sentence = get_object_or_404(Sentence, id=sentence_id)
-    accept_suggest = Suggest.objects.filter(sentence_id=sentence.id, status=SuggestEnum.Accept.value[0])
-    # incomplete show sentence detail for dashboard
+    accept_suggest = Suggest.objects.filter(sentence_id=sentence.id, status=SuggestEnum.Accept.value)
+    suggest = Suggest
+    try:
+        suggest = Suggest.objects.get(sentence_id=sentence.id, status=SuggestEnum.Accept.value)
+    except:
+        pass
+    if request.method == "POST":
+        form_file = EditCompleteFileForm(request.POST, request.FILES, instance=suggest)
+        if form_file.is_valid():
+            suggest = form_file.save(commit=False)
+            suggest.upload_time = datetime.datetime.now()
 
+            suggest.save()
+            # update sentence status
+            Sentence.objects.filter(id=sentence.id).update(status_id=SentenceEnum.Completed.value)
+            return redirect("dashboard:dashboard_tr")
+    else:
+        form_file = EditCompleteFileForm(instance=suggest)
     return render(request, 'sentence_detail_dashboard.html', {"sentence": sentence,
-                                                              "accept_suggest": accept_suggest})
+                                                              "accept_suggest": accept_suggest,
+                                                              "form_file": form_file})

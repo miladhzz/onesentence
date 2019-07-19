@@ -79,7 +79,8 @@ class Suggest(models.Model):
     sentence = models.ForeignKey(Sentence, on_delete=models.CASCADE)
     description = models.TextField(max_length=300, blank=True)
     status = models.ForeignKey(SuggestStatus, on_delete=models.DO_NOTHING)
-    completeFile = models.FileField(null=True, blank=True, upload_to='media/upload/Content_File_Of_Suggest')
+    completeFile = models.FileField(null=True, upload_to='media/upload/Content_File_Of_Suggest')
+    upload_time = models.DateTimeField(null=True, blank=True)
     rate_number = models.IntegerField(blank=True, default=0, null=True)
 
 
