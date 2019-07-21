@@ -24,7 +24,8 @@ if settings.DEBUG:
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('business.urls')),
-    path('', include('dashboard.urls'))
+    path('', include('dashboard.urls')),
+    path('', include('davari.urls'))
 ]
 
 urlpatterns += [
