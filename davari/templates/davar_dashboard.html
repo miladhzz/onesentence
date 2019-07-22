@@ -4,4 +4,39 @@
 
     <h1>داشبورد داور</h1>
 
+    <table border="1">
+     <thead>
+        <td>
+         کد جمله
+        </td>
+        <td>
+          عنوان
+        </td>
+        <td>
+         زمان ثبت
+        </td>
+        <td>
+          وضعیت پیشنهاد
+        </td>
+     </thead>
+     <tbody>
+     {% for judgment in judgments %}
+        <tr>
+            <td>
+             {{ judgment.suggest.sentence.id }}
+            </td>
+           <td>
+            <a href=" url 'dashboard:sentence_detail_dashboard' suggest.sentence.id suggest.sentence.title ">{{ judgment.suggest.sentence.title }}</a>
+           </td>
+           <td>
+            {{ judgment.suggest.sentence.create_time }}
+           </td>
+           <td>
+            {{ judgment.suggest.status }}
+           </td>
+     </tr>
+     {% endfor %}
+     </tbody>
+    </table>
+
 {% endblock %}

@@ -14,3 +14,11 @@ class SuggestEnum(Enum):
     Reject = 3
 
 
+class JudgmentEnum(Enum):
+    Saved = 1
+    Processed = 2
+    Rejected = 3
+
+
+
+

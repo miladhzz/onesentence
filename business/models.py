@@ -22,6 +22,13 @@ class SentenceStatus(models.Model):
         return self.title
 
 
+class JudgmentsStatus(models.Model):
+    title = models.CharField(unique=True, max_length=100)
+
+    def __str__(self):
+        return self.title
+
+
 class ContentType(models.Model):
     title = models.CharField(unique=True, max_length=100)
 
@@ -83,6 +90,9 @@ class Suggest(models.Model):
     upload_time = models.DateTimeField(null=True, blank=True)
     rate_number = models.IntegerField(blank=True, default=0, null=True)
 
+    def __str__(self):
+        return self.sentence.description
+
 
 class Judgment(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
@@ -91,6 +101,7 @@ class Judgment(models.Model):
     suggest = models.ForeignKey(Suggest, on_delete=models.CASCADE)
     judgment_won_user = models.ForeignKey(User, on_delete=models.DO_NOTHING,
                                           null=True, related_name='won_user')
+    status = models.ForeignKey(JudgmentsStatus,null=True, on_delete=models.DO_NOTHING)
 
 
 class UserType(models.Model):
