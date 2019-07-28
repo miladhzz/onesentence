@@ -16,8 +16,20 @@
          زمان ثبت
         </td>
         <td>
+            درخواست داوری از
+        </td>
+        <td>
+            توضیحات
+        </td>
+        <td>
           وضعیت پیشنهاد
         </td>
+        <td>
+            رای به نفع
+        </td>
+     <td>
+         بررسی درخواست
+     </td>
      </thead>
      <tbody>
      {% for judgment in judgments %}
@@ -26,14 +38,27 @@
              {{ judgment.suggest.sentence.id }}
             </td>
            <td>
-            <a href=" url 'dashboard:sentence_detail_dashboard' suggest.sentence.id suggest.sentence.title ">{{ judgment.suggest.sentence.title }}</a>
+            {{ judgment.suggest.sentence.title }}
            </td>
            <td>
             {{ judgment.suggest.sentence.create_time }}
            </td>
+            <td>
+                <a href="#"> {{ judgment.judgment_user }} </a>
+            </td>
+            <td>
+                {{ judgment.judgment_description }}
+            </td>
            <td>
             {{ judgment.suggest.status }}
            </td>
+            <td>
+                {{ judgment.judgment_won_user }}
+            </td>
+            <td>
+                <a href=" {% url 'davari:sentence_detail_davari' judgment.suggest.id%}">
+                    بررسی درخواست</a>
+            </td>
      </tr>
      {% endfor %}
      </tbody>
