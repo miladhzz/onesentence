@@ -1,10 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %} onesentence - جزییات جمله {% endblock %}
+{% block content %}
 
-</body>
-</html>
+    <h1>جزییات جمله</h1>
+    <hr />
+    <div style="border:1px solid gray; margin:15px;">
+        عنوان:
+        <a href="#">{{ judgment.suggest.sentence.title }}</a>
+        <br />
+        متن اصلی:
+        <span> {{judgment.suggest.sentence.content_text}} </span>
+        <br />
+        زمان ثبت:
+        <span>{{ judgment.suggest.sentence.create_time }}</span>
+        <br />
+        تخصص:
+        <span> {{judgment.suggest.sentence.takhasos.title }} </span>
+        <br />
+        تعداد کاراکترها:
+        <span> {{judgment.suggest.sentence.word_count}} </span>
+        <br />
+        درخواست کننده:
+        <a href="#"> {{judgment.suggest.sentence.user}} </a>
+        <br />
+        مهلت انجام:
+        <span> {{judgment.suggest.sentence.mohlat_rooz }} روز</span>
+        <span> {{judgment.suggest.sentence.mohlat_saat }} ساعت</span>
+        <br />
+        <span class="status">وضعیت جمله:</span>
+        <span class="status">{{ judgment.suggest.sentence.status }}</span>
+            <h3>پیشنهاد تایید شده
+            </h3>
+            <div style="background-color:lightgray; margin:5px; padding:5px;">
+                    مجری:
+                    <span>{{ judgment.suggest.mojri }}</span>
+                    <br />
+                    مبلغ پیشنهادی:
+                    <span>{{ judgment.suggest.mablagh_pishnahadi }}</span>
+                    <br />
+                    توضیحات:
+                    <span>{{ judgment.suggest.description }}</span>
+                    <br />
+                    فایل تحویلی:
+                    <span>{{ judgment.suggest.completeFile }}</span>
+            </div>
+            <h3>درخواست داوری</h3>
+                    <div  style="background-color:lightgray; margin:5px; padding:5px;">
+                        درخواست کننده:
+                        {{ judgment.judgment_user }}
+                        <br/>
+                        تاریخ ثبت:
+                        {{ judgment.create_time }}
+                        <br/>
+                        توضیحات:
+                        {{ judgment.judgment_description }}
+                        <br/>
+                        رای داور به نفع:
+                        {{ judgment.judgment_won_user }}
+                    </div>
+
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {{ judgment_form.as_p }}
+                        <input type="submit" name="judgment_btn" value="ثبت کاربر برنده"/>
+                    </form>
+    </div>
+
+{% endblock %}
