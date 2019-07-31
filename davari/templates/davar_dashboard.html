@@ -38,7 +38,7 @@
              {{ judgment.suggest.sentence.id }}
             </td>
            <td>
-            {{ judgment.suggest.sentence.title }}
+               <a href="{% url 'dashboard:sentence_detail_dashboard' judgment.suggest.sentence.id judgment.suggest.sentence.title %}">{{ judgment.suggest.sentence.title }} </a>
            </td>
            <td>
             {{ judgment.suggest.sentence.create_time }}
