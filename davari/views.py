@@ -16,12 +16,9 @@ def dashboard_da(request):
 def sentence_detail_davari(request, suggest_id):
     judgment = get_object_or_404(Judgment, suggest_id=suggest_id)
     if request.method == "POST":
-        user_won_id = request.POST.get('judgment_won_user')
-        user_won = User.objects.get(id=user_won_id)
         judgment_form = UpdateJudgmentForm(request.POST, instance=judgment)
         if judgment_form.is_valid():
             judgment_form = judgment_form.save(commit=False)
-            judgment_form.judgment_won_user = user_won
             judgment_form.save()
             return redirect("business:home")
     else:
