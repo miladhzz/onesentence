@@ -27,6 +27,9 @@
         <td>
           وضعیت پیشنهاد
         </td>
+        <td>
+          وضعیت تحویل فایل
+        </td>
      </thead>
      <tbody>
      {% for suggest in my_suggests %}
@@ -52,6 +55,9 @@
            <td>
             {{ suggest.status }}
            </td>
+            <td>
+                {{ suggest.sentence.status }}
+            </td>
      </tr>
      {% endfor %}
      </tbody>

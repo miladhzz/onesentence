@@ -101,7 +101,8 @@ class Judgment(models.Model):
     suggest = models.ForeignKey(Suggest, on_delete=models.CASCADE)
     judgment_won_user = models.ForeignKey(User, on_delete=models.DO_NOTHING,
                                           null=True, related_name='won_user')
-    status = models.ForeignKey(JudgmentsStatus,null=True, on_delete=models.DO_NOTHING)
+    davar_description = models.TextField(blank=True, max_length=500)
+    status = models.ForeignKey(JudgmentsStatus, null=True, on_delete=models.DO_NOTHING)
 
 
 class UserType(models.Model):

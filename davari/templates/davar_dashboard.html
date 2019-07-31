@@ -56,8 +56,12 @@
                 {{ judgment.judgment_won_user }}
             </td>
             <td>
+                {% if judgment.judgment_won_user %}
+                 -
+                {% else %}
                 <a href=" {% url 'davari:sentence_detail_davari' judgment.suggest.id%}">
                     بررسی درخواست</a>
+                {% endif %}
             </td>
      </tr>
      {% endfor %}
