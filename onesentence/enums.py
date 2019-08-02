@@ -20,5 +20,9 @@ class JudgmentEnum(Enum):
     Rejected = 3
 
 
+class PaymentEnum(Enum):
+    payed = 1
+
+
 
 

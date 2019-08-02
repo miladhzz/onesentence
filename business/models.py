@@ -44,6 +44,13 @@ class FileGallery(models.Model):
         return self.title
 
 
+class PaymentStatus(models.Model):
+    title = models.CharField(unique=True, max_length=100)
+
+    def __str__(self):
+        return self.title
+
+
 class Sentence(models.Model):
     title = models.CharField(max_length=100)
     takhasos = models.ForeignKey(Takhasos, on_delete=models.DO_NOTHING)
@@ -60,6 +67,7 @@ class Sentence(models.Model):
 
     # content_file = models.FileField(upload_to='media/upload/sentence_files', blank=True)
     translator = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, related_name='translator')
+    payment_status = models.ForeignKey(PaymentStatus, on_delete=models.DO_NOTHING, null=True, default=1)
 
     def __str__(self):
         return 'Time: %s, %s' % (self.create_time, self.title)

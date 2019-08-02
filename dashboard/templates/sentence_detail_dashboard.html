@@ -28,6 +28,9 @@
         <br />
         <span class="status">وضعیت جمله:</span>
         <span class="status">{{ sentence.status }}</span>
+        <br />
+        <span class="status">وضعیت پرداخت:</span>
+        <span class="status">{{ sentence.payment_status }}</span>
         {% if accept_suggest %}
             <h3>پیشنهاد تایید شده
             </h3>
@@ -43,7 +46,11 @@
                     <span>{{ suggest.description }}</span>
                     <br />
                     فایل تحویلی:
+                    {% if request.user == suggest.mojri %}
                     <span>{{ suggest.completeFile }}</span>
+                    {% elif sentence.status.id == 4 %}
+                    <button>پرداخت هزینه و دانلود فایل</button>
+                    {% endif  %}
                     {% if request.user == suggest.mojri %}
                         <h3>ارسال فایل ترجمه</h3>
                         <form method="post" action=""  enctype="multipart/form-data">
