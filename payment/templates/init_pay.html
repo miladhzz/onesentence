@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} onesentence - پرداخت {% endblock %}
+{% block content %}
+
+    <h3>پرداخت</h3>
+    {% if sentence %}
+    <p>{{ sentence }}</p>
+    {% else %}
+    <a href="#">Return</a>
+    {% endif %}
+{% endblock %}

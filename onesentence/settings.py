@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'transactions',
     'davari',
     'blog',
-    'dashboard'
+    'dashboard',
+    'payment'
 ]
 
 MIDDLEWARE = [

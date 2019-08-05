@@ -49,7 +49,13 @@
                     {% if request.user == suggest.mojri %}
                     <span>{{ suggest.completeFile }}</span>
                     {% elif sentence.status.id == 4 %}
-                    <button>پرداخت هزینه و دانلود فایل</button>
+                        <form method="post" action="/payment/">
+                            {% csrf_token %}
+                            <input type="hidden" name="sentence_id" value="{{ sentence.id }}">
+                            <input type="hidden" name="suggest_price" value="{{ suggest.mablagh_pishnahadi }}">
+                            <br />
+                            <input type="submit" name="payment_btn" value="پرداخت هزینه و دانلود فایل"/>
+                        </form>
                     {% endif  %}
                     {% if request.user == suggest.mojri %}
                         <h3>ارسال فایل ترجمه</h3>
