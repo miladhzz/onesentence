@@ -135,13 +135,13 @@ class Maharat(models.Model):
 
 
 class Dashboard(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     mojodi = models.DecimalField(decimal_places=0, max_digits=10)
     user_type = models.ForeignKey(UserType, on_delete=models.DO_NOTHING)
     user_status = models.ForeignKey(UserStatus, on_delete=models.DO_NOTHING)
     resume_description = models.TextField(max_length=500)
     resume_file = models.ForeignKey(FileGallery, on_delete=models.DO_NOTHING)
-    maharat = models.ManyToManyField(Maharat, blank=True)
+    # maharat = models.ManyToManyField(Maharat, blank=True)
     rate = models.DecimalField(decimal_places=2, max_digits=3)
 
 
