@@ -140,7 +140,7 @@ class Dashboard(models.Model):
     user_type = models.ForeignKey(UserType, on_delete=models.DO_NOTHING)
     user_status = models.ForeignKey(UserStatus, on_delete=models.DO_NOTHING)
     resume_description = models.TextField(max_length=500)
-    resume_file = models.ForeignKey(FileGallery, on_delete=models.DO_NOTHING)
+    resume_file = models.ForeignKey(FileGallery, on_delete=models.DO_NOTHING, blank=True, null=True)
     # maharat = models.ManyToManyField(Maharat, blank=True)
     rate = models.DecimalField(decimal_places=2, max_digits=3)
 
