@@ -21,6 +21,14 @@ class AddSentenceForm(forms.ModelForm):
         instance.save()
         return instance
 
+    def clean_zemanat_price(self, *args, **kwargs):
+        zemanat_price = self.cleaned_data.get("zemanat_price")
+        if zemanat_price > 10:
+            return zemanat_price
+        else:
+            raise forms.ValidationError("OoooooO")
+
+
 
 class SubmitSuggestForm(forms.ModelForm):
     class Meta:
