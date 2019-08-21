@@ -26,7 +26,7 @@ class AddSentenceForm(forms.ModelForm):
         if zemanat_price > 10:
             return zemanat_price
         else:
-            raise forms.ValidationError("OoooooO")
+            raise forms.ValidationError("مبلغ ضمانت از موجودی شما بیشتر است.")
 
 
 

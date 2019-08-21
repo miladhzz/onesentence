@@ -3,6 +3,9 @@
 {% block content %}
     <h1>ثبت جمله جدید</h1>
     <hr />
+    {% if form.errors %}
+        <h2>لطفا خطاها را برطرف کنید</h2>
+    {% endif %}
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
