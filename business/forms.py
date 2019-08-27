@@ -10,7 +10,7 @@ class AddSentenceForm(forms.ModelForm):
     class Meta:
         model = models.Sentence
         fields = ('title', 'takhasos', 'mohlat_rooz', 'mohlat_saat', 'zemanat_price', 'price',
-                   'content_text')
+                  'content_text')
 
     def save(self, request):
         instance = super(AddSentenceForm, self).save(commit=False)
@@ -22,12 +22,16 @@ class AddSentenceForm(forms.ModelForm):
         return instance
 
     def clean_zemanat_price(self, *args, **kwargs):
+        mojodi = models.Dashboard.objects.get(user=self.user).mojodi
         zemanat_price = self.cleaned_data.get("zemanat_price")
-        if zemanat_price > 10:
+        if zemanat_price <= mojodi:
             return zemanat_price
         else:
             raise forms.ValidationError("مبلغ ضمانت از موجودی شما بیشتر است.")
 
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(AddSentenceForm, self).__init__(*args, **kwargs)
 
 
 class SubmitSuggestForm(forms.ModelForm):
@@ -35,6 +39,8 @@ class SubmitSuggestForm(forms.ModelForm):
         model = models.Suggest
         fields = ('mablagh_pishnahadi', 'description')
         # widgets = {'name': forms.HiddenInput()}
+
+
 '''
     def save(self, request):
         instance = super(SubmitSuggestForm, self).save(commit=False)
@@ -44,6 +50,3 @@ class SubmitSuggestForm(forms.ModelForm):
         instance.save()
         return instance
 '''
-
-
-

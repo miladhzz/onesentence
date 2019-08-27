@@ -15,7 +15,7 @@ def home(request):
 @login_required
 def add_sentence(request):
     if request.method == "POST":
-        form = AddSentenceForm(request.POST)
+        form = AddSentenceForm(request.POST, user=request.user,)
         if form.is_valid():
             sentence = form.save(request)
             sentence.save()
