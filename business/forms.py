@@ -40,13 +40,17 @@ class SubmitSuggestForm(forms.ModelForm):
         fields = ('mablagh_pishnahadi', 'description')
         # widgets = {'name': forms.HiddenInput()}
 
+    def clean_mablagh_pishnahadi(self, *args, **kwargs):
+        mojodi = models.Dashboard.objects.get(user=self.user).mojodi
+        mablagh_pishnahadi = self.cleaned_data.get("mablagh_pishnahadi")
+        if mojodi < self.sentence.zemanat_price:
+            raise forms.ValidationError("مبلغ ضمانت از موجودی شما بیشتر است.")
+        if mablagh_pishnahadi <= mojodi:
+            return mablagh_pishnahadi
+        else:
+            raise forms.ValidationError("مبلغ پیشنهادی از موجودی شما بیشتر است.")
 
-'''
-    def save(self, request):
-        instance = super(SubmitSuggestForm, self).save(commit=False)
-        instance.mojri = request.user
-        instance.status = models.SuggestStatus.objects.get(id=1)
-        # instance.sentence = sentence
-        instance.save()
-        return instance
-'''
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        self.sentence = kwargs.pop('sentence', None)
+        super(SubmitSuggestForm, self).__init__(*args, **kwargs)

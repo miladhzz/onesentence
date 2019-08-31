@@ -25,19 +25,6 @@ def add_sentence(request):
     return render(request, 'add_sentence.html', {'form': form})
 
 
-@login_required
-def submit_suggest(request):
-    if request.method == "POST":
-        form = SubmitSuggestForm(request.POST)
-        if form.is_valid():
-            suggest = form.save(request)
-            suggest.save()
-            return redirect('business:home')
-    else:
-        form = SubmitSuggestForm()
-    return render(request, 'submit_suggest.html', {'form': form})
-
-
 class SentenceList(ListView):
     model = Sentence
     template_name = 'sentence_list.html'
@@ -57,7 +44,7 @@ def sentence_detail(request, sentence_id, sentence_title):
     if suggest_count > 0:
         current_user_suggest = Suggest.objects.filter(sentence_id=sentence.id, mojri=request.user)
     if request.method == "POST":
-        form = SubmitSuggestForm(request.POST)
+        form = SubmitSuggestForm(request.POST, user=request.user, sentence=sentence)
         if form.is_valid():
             suggest = form.save(commit=False)
             suggest.mojri = request.user

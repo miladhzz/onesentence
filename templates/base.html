@@ -19,6 +19,7 @@
         <li><a href="{% url 'davari:dashboard_da'%}">داشبورد داور</a></li>
         <li><a href="{% url 'business:add_sentence'%}">ثبت جمله</a></li>
         <li><a href="{% url 'business:sentence_list'%}">لیست جمله ها</a></li>
+        <li><a href="#">افزایش اعتبار</a> </li>
         {% if request.user.is_authenticated %}
             <a href="{% url 'business:logout' %}">خروج</a>
         {% endif %}
