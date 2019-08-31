@@ -43,6 +43,7 @@ class SubmitSuggestForm(forms.ModelForm):
     def clean_mablagh_pishnahadi(self, *args, **kwargs):
         mojodi = models.Dashboard.objects.get(user=self.user).mojodi
         mablagh_pishnahadi = self.cleaned_data.get("mablagh_pishnahadi")
+
         if mojodi < self.sentence.zemanat_price:
             raise forms.ValidationError("مبلغ ضمانت از موجودی شما بیشتر است.")
         if mablagh_pishnahadi <= mojodi:
