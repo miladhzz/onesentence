@@ -21,7 +21,8 @@ class JudgmentEnum(Enum):
 
 
 class PaymentEnum(Enum):
-    payed = 1  # پرداخت شد
+    notPayed = 1  # پرداخت نشد
+    payed = 2  # پرداخت شد
 
 
 class UserStatusEnum(Enum):
