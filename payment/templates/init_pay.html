@@ -3,10 +3,26 @@
 {% block content %}
 
     <h3>پرداخت</h3>
+
     {% if sentence %}
-    <p>{{ sentence }}</p>
-    <p>{{ user }}</p>
+    جمله:
+    <p>{{ sentence.title }}</p>
+    <br />
+    کد جمله:
+    <p>{{ sentence.id }}</p>
+    <h4>مبلغ قابل پرداخت:</h4>
+    <form method="post" action="/payment/complete">
+        {% csrf_token %}
+        <input type="text" readonly value="{{ suggest_price }}" name="suggest_price">
+        <br />
+        <input type="checkbox" name="accept" required>
+        <label >مبلغ مورد تایید است</label>
+        <br />
+        <input type="submit" value="پرداخت">
+    </form>
+
     {% else %}
     <a href="#">Return</a>
     {% endif %}
+
 {% endblock %}
