@@ -4,25 +4,22 @@
 
     <h3>پرداخت</h3>
 
-    {% if sentence %}
     جمله:
     <p>{{ sentence.title }}</p>
     <br />
     کد جمله:
     <p>{{ sentence.id }}</p>
-    <h4>مبلغ قابل پرداخت:</h4>
-    <form method="post" action="/payment/complete">
+    <form method="post" action="">
         {% csrf_token %}
-        <input type="text" readonly value="{{ suggest_price }}" name="suggest_price">
+        <label for="mablagh_id">مبلغ قابل پرداخت:</label>
+        <input type="text" readonly id="mablagh_id" value="{{ suggest.mablagh_pishnahadi }}" name="mablagh">
+
         <br />
-        <input type="checkbox" name="accept" required>
-        <label >مبلغ مورد تایید است</label>
+        <input type="checkbox" name="accept" id="accept_id" required>
+        <label for="accept_id">مبلغ مورد تایید است</label>
         <br />
         <input type="submit" value="پرداخت">
     </form>
 
-    {% else %}
-    <a href="#">Return</a>
-    {% endif %}
 
 {% endblock %}
