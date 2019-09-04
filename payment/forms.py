@@ -9,11 +9,13 @@ from onesentence.enums import SuggestEnum, SentenceEnum
 class PaymentForm(forms.Form):
         mablagh = forms.IntegerField(label='مبلغ قابل پرداخت')
         accept = forms.BooleanField(label='مبلغ مورد تایید است',)
+        sentence_id = forms.IntegerField()
+        suggest_id = forms.IntegerField()
 
         def clean_mablagh(self, *args, **kwargs):
             mablagh = self.cleaned_data.get("mablagh")
             if mablagh == 5000:
-                raise forms.ValidationError("مبلغ ضمانت از موجودی شما بیشتر است.")
+                raise forms.ValidationError("مبلغ از موجودی شما بیشتر است.")
     # def save(self, request):
     #     instance = super(PaymentForm, self).save(commit=False)
     #     instance.user = request.user

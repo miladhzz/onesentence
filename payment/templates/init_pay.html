@@ -9,6 +9,13 @@
     <br />
     کد جمله:
     <p>{{ sentence.id }}</p>
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
     <form method="post" action="">
         {% csrf_token %}
         <label for="mablagh_id">مبلغ قابل پرداخت:</label>
@@ -18,6 +25,8 @@
         <input type="checkbox" name="accept" id="accept_id" required>
         <label for="accept_id">مبلغ مورد تایید است</label>
         <br />
+        <input type="hidden" value="{{ sentence.id }}" name="sentence_id">
+        <input type="hidden" value="{{ suggest.id }}" name="suggest_id">
         <input type="submit" value="پرداخت">
     </form>
 
