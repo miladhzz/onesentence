@@ -1,8 +1,9 @@
 from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.decorators import login_required
-from business.models import Sentence, Suggest
+from business.models import Sentence, Suggest, Dashboard
 from .forms import PaymentForm
 from django.shortcuts import redirect
+from decimal import Decimal
 
 
 @login_required
@@ -15,7 +16,9 @@ def init_pay(request):
     if request.method == 'POST':
         form = PaymentForm(request.POST, user=request.user)
         if form.is_valid():
-            form.save()
+            mablagh = request.POST.get('mablagh')
+            mojodi = Dashboard.objects.get(user=request.user).mojodi
+            Dashboard.objects.filter(user=request.user).update(mojodi=mojodi-Decimal(mablagh))
             return redirect('business:home')
     else:
         form = PaymentForm()
