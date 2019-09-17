@@ -21,7 +21,7 @@ def init_pay(request):
             mojodi = Dashboard.objects.get(user=request.user).mojodi
             Dashboard.objects.filter(user=request.user).update(mojodi=mojodi-Decimal(mablagh))
             Sentence.objects.filter(id=sentence_id).update(payment_status=PaymentEnum.payed.value)
-            return redirect('business:home')
+            return redirect('dashboard:sentence_detail_dashboard', sentence_id=sentence.id, sentence_title=sentence.title)
     else:
         form = PaymentForm()
 

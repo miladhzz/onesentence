@@ -49,12 +49,16 @@
                     {% if request.user == suggest.mojri %}
                     <span>{{ suggest.completeFile }}</span>
                     {% elif sentence.status.id == 4 %}
-                        <form method="get" action="/payment/">
-                            <input type="hidden" name="sentence" value="{{ sentence.id }}">
-                            <input type="hidden" name="suggest" value="{{ suggest.id }}">
-                            <br />
-                            <input type="submit" value="پرداخت هزینه و دانلود فایل"/>
-                        </form>
+                        {% if sentence.payment_status.id == 2%}
+                            <a href="{{suggest.completeFile}}">فایلییییییی</a>
+                        {% else %}
+                            <form method="get" action="/payment/">
+                                <input type="hidden" name="sentence" value="{{ sentence.id }}">
+                                <input type="hidden" name="suggest" value="{{ suggest.id }}">
+                                <br />
+                                <input type="submit" value="پرداخت هزینه و دانلود فایل"/>
+                            </form>
+                        {% endif  %}
                     {% endif  %}
                     {% if request.user == suggest.mojri %}
                         <h3>ارسال فایل ترجمه</h3>
