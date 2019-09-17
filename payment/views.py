@@ -1,6 +1,7 @@
 from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from business.models import Sentence, Suggest, Dashboard
+from onesentence.enums import PaymentEnum
 from .forms import PaymentForm
 from django.shortcuts import redirect
 from decimal import Decimal
@@ -19,6 +20,7 @@ def init_pay(request):
             mablagh = request.POST.get('mablagh')
             mojodi = Dashboard.objects.get(user=request.user).mojodi
             Dashboard.objects.filter(user=request.user).update(mojodi=mojodi-Decimal(mablagh))
+            Sentence.objects.filter(id=sentence_id).update(payment_status=PaymentEnum.payed.value)
             return redirect('business:home')
     else:
         form = PaymentForm()
