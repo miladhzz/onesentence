@@ -13,8 +13,9 @@ def init_pay(request):
     suggest = get_object_or_404(Suggest, id=suggest_id, sentence_id=sentence_id)
 
     if request.method == 'POST':
-        form = PaymentForm(request.POST)
+        form = PaymentForm(request.POST, user=request.user)
         if form.is_valid():
+            form.save()
             return redirect('business:home')
     else:
         form = PaymentForm()
