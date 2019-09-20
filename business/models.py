@@ -99,7 +99,7 @@ class Suggest(models.Model):
     rate_number = models.IntegerField(blank=True, default=0, null=True)
 
     def __str__(self):
-        return self.sentence.description
+        return self.sentence.title
 
 
 class Judgment(models.Model):

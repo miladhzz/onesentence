@@ -50,7 +50,7 @@
                     <span>{{ suggest.completeFile }}</span>
                     {% elif sentence.status.id == 4 %}
                         {% if sentence.payment_status.id == 2%}
-                            <a href="{{suggest.completeFile}}">فایلییییییی</a>
+                            <a href="{{suggest.completeFile}}">دانلود ترجمه</a>
                         {% else %}
                             <form method="get" action="/payment/">
                                 <input type="hidden" name="sentence" value="{{ sentence.id }}">
