@@ -110,7 +110,7 @@ class Judgment(models.Model):
     judgment_won_user = models.ForeignKey(User, on_delete=models.DO_NOTHING,
                                           null=True, related_name='won_user')
     davar_description = models.TextField(blank=True, max_length=500)
-    mablagh = models.DecimalField(decimal_places=0, max_digits=10)
+    mablagh = models.DecimalField(decimal_places=0, max_digits=10, default=0)
     status = models.ForeignKey(JudgmentsStatus, null=True, on_delete=models.DO_NOTHING)
 
 
