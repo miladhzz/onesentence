@@ -5,4 +5,4 @@ from business import models
 class UpdateJudgmentForm(forms.ModelForm):
     class Meta:
         model = models.Judgment
-        fields = ('judgment_won_user', 'davar_description')
+        fields = ('judgment_won_user', 'mablagh', 'davar_description')

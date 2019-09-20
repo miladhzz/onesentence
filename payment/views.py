@@ -18,8 +18,11 @@ def init_pay(request):
         form = PaymentForm(request.POST, user=request.user)
         if form.is_valid():
             mablagh = request.POST.get('mablagh')
-            mojodi = Dashboard.objects.get(user=request.user).mojodi
-            Dashboard.objects.filter(user=request.user).update(mojodi=mojodi-Decimal(mablagh))
+            mojodi_applicant = Dashboard.objects.get(user=sentence.user).mojodi
+            mojodi_translator = Dashboard.objects.get(user=sentence.translator).mojodi
+            # todo log transactions
+            Dashboard.objects.filter(user=sentence.user).update(mojodi=mojodi_applicant-Decimal(mablagh))
+            Dashboard.objects.filter(user=sentence.translator).update(mojodi=mojodi_translator + Decimal(mablagh))
             Sentence.objects.filter(id=sentence_id).update(payment_status=PaymentEnum.payed.value)
             return redirect('dashboard:sentence_detail_dashboard', sentence_id=sentence.id, sentence_title=sentence.title)
     else:
