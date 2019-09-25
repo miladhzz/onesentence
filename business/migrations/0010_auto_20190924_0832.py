@@ -3,11 +3,17 @@
 from django.db import migrations
 
 
-class Migration(migrations.Migration):
+def seed_data(apps, schema_editor):
+    payment_status = apps.get_model('business', 'PaymentStatus')
+    payment_status(title='پرداخت نشد').save()
+    payment_status(title='پرداخت شد').save()
 
+
+class Migration(migrations.Migration):
     dependencies = [
         ('business', '0009_auto_20190818_0723'),
     ]
 
     operations = [
+        migrations.RunPython(seed_data),
     ]
