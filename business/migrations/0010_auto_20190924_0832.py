@@ -8,6 +8,36 @@ def seed_data(apps, schema_editor):
     payment_status(title='پرداخت نشد').save()
     payment_status(title='پرداخت شد').save()
 
+    sentence_status = apps.get_model('business', 'SentenceStatus')
+    sentence_status(title='ثبت اولیه').save()
+    sentence_status(title='ثبت نهایی').save()
+    sentence_status(title='در حال انجام').save()
+    sentence_status(title='تحویل شده').save()
+
+    suggest_status = apps.get_model('business', 'SuggestStatus')
+    suggest_status(title='منتظر بررسی').save()
+    suggest_status(title='تایید پیشنهاد').save()
+    suggest_status(title='رد شده').save()
+
+    takhasos = apps.get_model('business', 'Takhasos')
+    takhasos(title='عمومی').save()
+    takhasos(title='شیمی').save()
+    takhasos(title='کامپیوتر').save()
+
+    judgments_status = apps.get_model('business', 'JudgmentsStatus')
+    judgments_status(title='ثبت شده').save()
+    judgments_status(title='بررسی شده').save()
+    judgments_status(title='رد شده').save()
+
+    user_status = apps.get_model('business', 'UserStatus')
+    user_status(title='فعال').save()
+    user_status(title='غیرفعال').save()
+
+    user_type = apps.get_model('business', 'UserType')
+    user_type(title='درخواست کننده').save()
+    user_type(title='مترجم').save()
+
+
 
 class Migration(migrations.Migration):
     dependencies = [
