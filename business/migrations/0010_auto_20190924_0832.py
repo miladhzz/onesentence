@@ -38,7 +38,6 @@ def seed_data(apps, schema_editor):
     user_type(title='مترجم').save()
 
 
-
 class Migration(migrations.Migration):
     dependencies = [
         ('business', '0009_auto_20190818_0723'),
