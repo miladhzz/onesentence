@@ -2,9 +2,15 @@
 {% block title %} onesentence - پرداخت {% endblock %}
 {% block content %}
 
-    <h3>افزایش اعتبار</h3>
-
-
-
+    <div class="container">
+        <h3>افزایش اعتبار</h3>
+        <div>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">افزایش اعتبار</button>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}

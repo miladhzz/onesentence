@@ -7,6 +7,8 @@ from django.shortcuts import redirect
 from decimal import Decimal
 from zeep import Client
 from django.http import HttpResponse
+from onesentence.settings import MERCHANT, CallbackURL
+from dashboard.forms import ChargeForm
 
 
 @login_required
@@ -36,28 +38,28 @@ def init_pay(request):
                                              "form": form})
 
 
-MERCHANT = ''
 client = Client('https://www.zarinpal.com/pg/services/WebGate/wsdl')
-amount = 1000  # Toman / Required
-description = "تست جنگو"  # Required
-email = 'miladhzz@gmail.com'  # Optional
-mobile = '09384677005'  # Optional
-CallbackURL = 'http://127.0.0.1:8000/verify/'  # Important: need to edit for really server.
 
 
 @login_required
 def charge(request):
-    result = client.service.PaymentRequest(MERCHANT, amount, description, email, mobile, CallbackURL)
-    if result.Status == 100:
-        return redirect('https://www.zarinpal.com/pg/StartPay/' + str(result.Authority))
+    if request.method == 'POST':
+        form = ChargeForm(request.POST)
+        if form.is_valid():
+            mablagh = request.POST.get('mablagh')
+            dashboard_instance = get_object_or_404(Dashboard, user=request.user)
+            dashboard_instance.mojodi += int(mablagh)
+            dashboard_instance.save()
+            # todo to callback
     else:
-        return HttpResponse('Error code: ' + str(result.Status))
+        form = ChargeForm()
+    return render(request, "charge.html", {"form": form})
 
 
 @login_required
 def verify(request):
     if request.GET.get('Status') == 'OK':
-        result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], amount)
+        result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], 1000)
         if result.Status == 100:
             return HttpResponse('Transaction success.\nRefID: ' + str(result.RefID))
         elif result.Status == 101:

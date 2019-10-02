@@ -133,3 +133,6 @@ DEBUG_TOOLBAR_PATCH_SETTINGS = False
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
+MERCHANT = ''
+CallbackURL = 'http://127.0.0.1:8000/callback/'
+
