@@ -138,12 +138,25 @@ class Maharat(models.Model):
 class Dashboard(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     mojodi = models.DecimalField(decimal_places=0, max_digits=10)
+    mobile = models.CharField(max_length=11, blank=True)
     user_type = models.ForeignKey(UserType, on_delete=models.DO_NOTHING)
     user_status = models.ForeignKey(UserStatus, on_delete=models.DO_NOTHING)
     resume_description = models.TextField(max_length=500)
     resume_file = models.ForeignKey(FileGallery, on_delete=models.DO_NOTHING, blank=True, null=True)
     # maharat = models.ManyToManyField(Maharat, blank=True)
     rate = models.DecimalField(decimal_places=2, max_digits=3)
+
+
+class Payment(models.Model):
+    amount = models.IntegerField()
+    authority = models.CharField(max_length=36)
+    create_time = models.DateTimeField(auto_now_add=True)
+    status = models.IntegerField(blank=True, null=True)
+    ref_id = models.CharField(max_length=100, blank=True)
+    dashboard = models.ForeignKey(Dashboard, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'user={0}, time={1}'.format(self.dashboard.user, self.create_time)
 
 
 class Report(models.Model):

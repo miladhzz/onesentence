@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from business.models import Sentence, Suggest, Dashboard
+from business.models import Sentence, Suggest, Dashboard, Payment
 from onesentence.enums import PaymentEnum
 from .forms import PaymentForm
 from django.shortcuts import redirect
@@ -46,26 +46,45 @@ def charge(request):
     if request.method == 'POST':
         form = ChargeForm(request.POST)
         if form.is_valid():
-            mablagh = request.POST.get('mablagh')
             dashboard_instance = get_object_or_404(Dashboard, user=request.user)
-            dashboard_instance.mojodi += int(mablagh)
-            dashboard_instance.save()
-            # todo to callback
+            description = "شارژ حساب کاربری"  # Required
+            email = dashboard_instance.user.email
+            mobile = dashboard_instance.mobile
+            amount = request.POST.get('mablagh')
+            result = client.service.PaymentRequest(MERCHANT, amount, description, email, mobile, CallbackURL)
+            if result.Status == 100 and len(result.Authority) == 36:
+                payment = Payment(amount=amount, authority=int(result.Authority), dashboard=dashboard_instance)
+                payment.save()
+                return redirect('https://www.zarinpal.com/pg/StartPay/' + str(int(result.Authority)))
+            else:
+                return HttpResponse('Error code: ' + str(result.Status))
     else:
         form = ChargeForm()
     return render(request, "charge.html", {"form": form})
 
 
 @login_required
-def verify(request):
+def callback(request):
     if request.GET.get('Status') == 'OK':
-        result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], 1000)
+        authority = int(request.GET['Authority'])
+        payment = get_object_or_404(Payment, authority=authority)
+        result = client.service.PaymentVerification(MERCHANT, authority, payment.amount)
         if result.Status == 100:
-            return HttpResponse('Transaction success.\nRefID: ' + str(result.RefID))
+            payment.status = result.Status  # 100 complete
+            payment.ref_id = result.RefID
+            payment.save()
+
+            dashboard_instance = payment.dashboard
+            dashboard_instance.mojodi += payment.amount
+            dashboard_instance.save()
+
+            return render(request, 'callback.html', {'refId': payment.ref_id})
         elif result.Status == 101:
-            return HttpResponse('Transaction submitted : ' + str(result.Status))
+            payment = get_object_or_404(Payment, authority=authority)
+            return render(request, 'callback.html', {'refId': payment.refId})
         else:
-            return HttpResponse('Transaction failed.\nStatus: ' + str(result.Status))
+            return HttpResponse('تراکنش ناموفق.\nStatus: ' + str(result.Status) +
+                                '<a href="http://onesentence.ir">بازگشت</a>')
     else:
-        return HttpResponse('Transaction failed or canceled by user')
+        return HttpResponse('پرداخت توسط کاربر لغو شد' + '<a href="http://onesentence.ir">بازگشت</a>')
 
