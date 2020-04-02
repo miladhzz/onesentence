@@ -102,10 +102,12 @@ WSGI_APPLICATION = 'onesentence.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': get_secret('DB_NAME'),
         'USER': get_secret('DB_USERNAME'),
-        'PASSWORD': get_secret('DB_PASSWORD')
+        'PASSWORD': get_secret('DB_PASSWORD'),
+        'HOST': get_secret('HOST'),
+        'PORT': '5432',
     }
 }
 
