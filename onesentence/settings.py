@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import json
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,6 +27,23 @@ SECRET_KEY = 'i_v*%l1_z8)&ld$=+n*!xfgd_!eez@n8)if+*v6py68na7twl^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+secret = json.load(open(os.path.join(BASE_DIR, 'secret.json')))
+secret_dev = json.load(open(os.path.join(BASE_DIR, 'secret_dev.json')))
+
+
+def get_secret(setting, secrets=secret, secrets_dev=secret_dev):
+    """Get secret setting or fail with ImproperlyConfigured"""
+    try:
+        if DEBUG:
+            return secrets_dev[setting]
+        return secrets[setting]
+    except KeyError:
+        raise ImproperlyConfigured("Set the {} setting".format(setting))
+
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = get_secret('SECRET_KEY')
+
 ALLOWED_HOSTS = []
 
 
@@ -37,7 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar',
+    # 'debug_toolbar',
     'business',
     'transactions',
     'davari',
@@ -83,12 +102,10 @@ WSGI_APPLICATION = 'onesentence.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'onesentence',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'ENGINE': 'mysql.connector.django',
+        'NAME': get_secret('DB_NAME'),
+        'USER': get_secret('DB_USERNAME'),
+        'PASSWORD': get_secret('DB_PASSWORD')
     }
 }
 
