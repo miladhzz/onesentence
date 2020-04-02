@@ -73,7 +73,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'onesentence.urls'
@@ -107,7 +107,7 @@ DATABASES = {
         'USER': get_secret('DB_USERNAME'),
         'PASSWORD': get_secret('DB_PASSWORD'),
         'HOST': get_secret('HOST'),
-        'PORT': '5432',
+        'PORT': '',
     }
 }
 
@@ -143,11 +143,11 @@ STATIC_URL = '/static/'
 
 INTERNAL_IPS = ['127.0.0.1']
 
-DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': lambda x: True
-}
+# DEBUG_TOOLBAR_CONFIG = {
+#     'SHOW_TOOLBAR_CALLBACK': lambda x: True
+# }
 
-DEBUG_TOOLBAR_PATCH_SETTINGS = False
+# DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
