@@ -15,3 +15,7 @@ class SentenceDetail(generics.RetrieveAPIView):
     # lookup_field = 'word_count'
     queryset = models.Sentence.objects.all()
     serializer_class = serializers.SentenceSerializer
+
+
+class AddSentence(generics.CreateAPIView):
+    serializer_class = serializers.AddSentenceSerializer

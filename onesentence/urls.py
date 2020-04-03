@@ -26,7 +26,8 @@ urlpatterns = [
     path('', include('business.urls')),
     path('', include('dashboard.urls')),
     path('', include('davari.urls')),
-    path('', include('payment.urls'))
+    path('', include('payment.urls')),
+    path('api-auth/', include('rest_framework.urls')),
 ]
 
 # urlpatterns += [

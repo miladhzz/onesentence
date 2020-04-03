@@ -3,7 +3,7 @@ from business import views
 from django.contrib.auth import views as auth_views
 
 from .api.router import router
-from .api.views import SentenceList, SentenceDetail
+from .api.views import SentenceList, SentenceDetail, AddSentence
 
 
 app_name = 'business'
@@ -19,6 +19,7 @@ urlpatterns = [
 
     path('api/v1/sentence-list/', SentenceList.as_view(), name='sentence_list_api'),
     path('api/v1/sentence-detail/<int:pk>/', SentenceDetail.as_view(), name='sentence_detail_api'),
+    path('api/v1/add-sentence/', AddSentence.as_view(), name='add_sentence_api'),
     ]
 
 # urlpatterns += router.urls

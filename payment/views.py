@@ -38,7 +38,7 @@ def init_pay(request):
                                              "form": form})
 
 
-client = Client('https://www.zarinpal.com/pg/services/WebGate/wsdl')
+client = "" #Client('https://www.zarinpal.com/pg/services/WebGate/wsdl')
 
 
 @login_required
